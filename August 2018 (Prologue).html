@@ -16,7 +16,19 @@
 
 
 
+
+
+
+
+
+
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">
+
+
+
+
+
+
 
 
 
@@ -66,7 +78,7 @@ Blob comes over to Moth who |Cool_Look&gt;[looks] (click: ?Cool_Look)[(in a slow
 
 A speaker emerges from the top of Blob, a CD skips, and the speakers belt out:
 
-[[&#39;What?&#39; -&gt; Hidden In Jacket 2]]</tw-passagedata><tw-passagedata pid="10" name="Hidden in Pinto" tags="" position="718,724" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="11" name="Hook testing" tags="" position="1141,582" size="100,100"></tw-passagedata><tw-passagedata pid="12" name=" Hidden In Jacket 2" tags="" position="407,862" size="100,100">&#39;Bored like you are Blob, just hangin&#39; Moth says.
+[[&#39;What?&#39; -&gt; Hidden In Jacket 2]]</tw-passagedata><tw-passagedata pid="10" name="Hidden in Pinto" tags="" position="718,724" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="11" name="Hook testing" tags="" position="1141,582" size="100,100"></tw-passagedata><tw-passagedata pid="12" name=" Hidden In Jacket 2" tags="" position="407,861" size="100,100">&#39;Bored like you are Blob, just hangin&#39; Moth says.
 
 The speakers in Blob crunch again: 
 
@@ -78,11 +90,65 @@ An eye roll from Moth.
 
 Moth stands up and spreads their arms, showing Blob that they hold nothing, much less a book. Moth&#39;s jacket |Book_Falls&gt;[rustles]...
 
-(click: ?Book_Falls)[(link-goto: &quot;And the book falls out.&quot;, &quot;Blob Gets Book&quot;)]</tw-passagedata><tw-passagedata pid="13" name="Blob Gets Book" tags="" position="407,975" size="100,100">Two long growths shoot out from Blob and grab hold of the dense tome. Moth has fallen over and is cursing - cursing and clutching where the book landed on their foot.
+(click: ?Book_Falls)[(link-goto: &quot;And the book falls out.&quot;, &quot;Blob Gets Book&quot;)]
+
+[[Continue-&gt;Blob Gets Book]] </tw-passagedata><tw-passagedata pid="13" name="Blob Gets Book" tags="" position="405,977" size="100,100">Two long growths shoot out from Blob and grab hold of the dense tome. Moth has fallen over and is cursing - clutching where the book landed on their foot.
 
 With a wet slurp, Blob pushes //The Beasts That Elude Us// into their gelatinous mass, and the book sinks into the opaque goop.
 
-&#39;BLOB NO YOU SHIT MANIAC&#39; Moth shouts, [[diving towards them.-&gt; Moth Retreives Book]]</tw-passagedata><tw-passagedata pid="14" name=" Moth Retreives Book" tags="" position="499,1090" size="100,100"></tw-passagedata></tw-storydata>
+&#39;GGH-ACK BLOB NO&#39; Moth shouts, [[diving towards them.-&gt; Moth Retreives Book]]</tw-passagedata><tw-passagedata pid="14" name=" Moth Retreives Book" tags="" position="400,1097" size="100,100">With a sound like several pounds of jello hitting concrete, Moth is engulfed in Blob&#39;s wobbling mass and shoots out the other side in a shower of goop, CD&#39;s, beer cans, and various other objects in differing states of decay.
+
+Moth skids in the dirt, an entire intact lamp (text-style: &quot;shudder&quot;)[smashing] down next to them.
+
+They roll over, arms wrapped around goop-covered //The Beasts That Elude Us//.
+
+With big breaths they look at Blob, now sporting a large hole. What looks like a melted |iron&gt;[curling iron] (click: ?iron)[(Something Blob must&#39;ve eaten a while ago)] falls into the gap from Blob&#39;s upper half. It lands on Blob&#39;s lower half with a slap, sinking back in.
+
+[[Continue-&gt;Why can&#39;t Blob Read Book?]] </tw-passagedata><tw-passagedata pid="15" name="Why can&#39;t Blob Read Book?" tags="" position="402,1213" size="100,100">(set:$clicks to 0)
+
+A speaker drops down and hangs by a cord in the negative space inside (link-repeat: &quot;Blob.&quot;)[(set:$clicks to it + 1)]
+
+(if: $clicks is 1)[&#39;What&#39;s your problem? . . . pal.&#39; From two different singers.]
+
+(print: $clicks)
+
+&#39;Me?&#39; Moth stands. &#39;Ow, ah - don&#39;t take my stuff, loon!&#39;
+
+The leaves rustle as the speaker crackles up.
+
+&#39;Why won&#39;t you - //just let me!// - (text-style: &quot;rumble&quot;)[read, it?]&#39;
+
+[[Continue-&gt;Moth Explains, Sits in Car]] </tw-passagedata><tw-passagedata pid="16" name="Moth Explains, Sits in Car" tags="" position="399,1347" size="100,100">&#39;Because you&#39;ll mess it all up,&#39; Moth says walking around Blob and resuming post in the Ford Pinto&#39;s trunk. &#39;And then I won&#39;t be able to read it.&#39;
+
+&#39;(text-style: &quot;bold&quot;)[It&#39;ll aaaaaall be fine] - (text-style: &quot;expand&quot;)[it doesn&#39;t work] - //that fast//&#39;
+
+&#39;It might!&#39; Moth leans up against the interior frame, assuming a lounging bad-boy posture. &#39;Just like... respect that its mine. And you can&#39;t read it.&#39;
+
+Moth crosses their arms as Blob slowly comes back together, filling the hole.
+
+&#39;//Is there something in there// - about me?&#39; Blob asks.
+
+[[Continue-&gt;Moth Lies About Book]] </tw-passagedata><tw-passagedata pid="17" name="Moth Lies About Book" tags="" position="403,1460" size="100,100">Moth turns away from Blob and looks down at the book.
+
+&#39;No there&#39;s nothing in here about you,&#39; Moth says. &#39;I told you before or I would have shown you. Why do you want to look at it so badly anyway?&quot;
+
+Moth crosses their arms, antennae flapping and tapping the rusting roof of the Pinto. There&#39;s a shuffle from where Blob was, and the car tilts a little.
+
+Tumbling out of the car Moth curses, and sees Blob has expanded, filling up the inside of the car.
+
+&#39;Come //on// Blob,&#39; Moth can&#39;t believe this nosy idiot, and Blob can&#39;t believe Moth is being such dipped shit.
+
+[[Continue-&gt;Moth Storms Off]] </tw-passagedata><tw-passagedata pid="18" name="Moth Storms Off" tags="" position="404,1575" size="100,100">&#39;Why are you being a son of a bastard,&#39; Moth huffs. They stomp over to the car and push on Blob&#39;s goop expanse, grunting.
+
+&#39;Get out of the Pinto, Blob.&quot; No response. Moth goes in for another push but a gaggle of speakers of different sizes, makes, and states of decay float up to the surface of Blob&#39;s skin. 
+
+A horrible screeching wail blasts from the speakers. A mile or so away on a trail, the sound makes two hikers stop.
+
+&#39;//ALRIGHT, SHUT UP!//&#39; Moth yells, recoiling and covering their antennae. The screeching stops. &quot;You can have the Pinto, idiot,&#39; they turn around, walking off into the trees. &#39;Tell mom I went off to do cool stuff because you&#39;re being an INFANT!&#39;
+
+The speakers are back out, screeching. Moth runs off into the woods, hands over antennae, yelling as well.
+
+[[Continue-&gt;CHOOSE FOREST PATH]]</tw-passagedata><tw-passagedata pid="19" name="CHOOSE FOREST PATH" tags="" position="824,1748" size="100,100">Double-click this passage to edit it.</tw-passagedata></tw-storydata>
 
 <script title="Twine engine code" data-main="harlowe">"use strict";function _defineProperty(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function _toConsumableArray(e){if(Array.isArray(e)){for(var t=0,n=Array(e.length);t<e.length;t++)n[t]=e[t];return n}return Array.from(e)}var _slicedToArray=function(){function e(e,t){var n=[],r=!0,i=!1,o=void 0;try{for(var a,s=e[Symbol.iterator]();!(r=(a=s.next()).done)&&(n.push(a.value),!t||n.length!==t);r=!0);}catch(e){i=!0,o=e}finally{try{!r&&s.return&&s.return()}finally{if(i)throw o}}return n}return function(t,n){if(Array.isArray(t))return t;if(Symbol.iterator in Object(t))return e(t,n);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};!function(){/**
  * @license almond 0.3.3 Copyright jQuery Foundation and other contributors.
