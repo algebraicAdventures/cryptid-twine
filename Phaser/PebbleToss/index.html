@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Pebble Toss Scene</title>
+        <script src="phaser.js"></script>
+    </head>
+    <body>
+
+    <script type="text/javascript">
+
+    window.onload = function() {
+
+        var game = new Phaser.Game(2732, 2048, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+        function preload ()
+        {
+
+            game.load.image('pebblelake_background', 'images/pebblelake_background.png');
+
+            game.load.image('mothman_bod', 'images/mothman_body.png');
+            game.load.image('mothman_arm', 'images/mothman_throwingarm.png');
+            game.load.image('pebble', 'images/pebble.png');
+
+
+
+        }
+
+        var pb_bg, mothman_body, mothman_arm, pebble;
+        //var pb_bg;
+
+        function create ()
+        {
+            pb_bg = game.add.sprite(0, 0, 'pebblelake_background');
+
+            //mothman_body = game.add.sprite(0, 0, 'mothman_bod');
+            //mothman_arm = game.add.sprite(0, 0, 'mothman_arm');
+            //pebble = game.add.sprite(0, 0, 'pebble');
+
+
+            cursors = game.input.keyboard.createCursorKeys();
+
+        }
+
+        function update () {
+            if(cursors.left.isDown){
+                //sign.body.rotateLeft(50);
+                console.log("you clicked, congrats");
+            }
+        }
+
+    };
+
+    </script>
+
+    </body>
+</html>
