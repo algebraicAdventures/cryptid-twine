@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>hello phaser!</title>
+        <script src="phaser.js"></script>
+    </head>
+    <body>
+
+    <script type="text/javascript">
+
+    window.onload = function() {
+
+        var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+        function preload () {
+
+            game.load.image('sign', '/images/sign.bmp');
+            game.load.image('pole', '/images/pole.bmp');
+
+        }
+
+        var sign;
+        var pole;
+
+        function create () {
+
+            game.physics.startSystem(Phaser.Physics.P2JS);
+            //game.physics.p2.gravity.y = 200;
+
+            pole = game.add.sprite(game.world.centerX, game.world.centerY + 100, 'pole');
+            pole.anchor.setTo(0.5, .5);
+            pole.scale.setTo(0.6, 0.6);
+
+            sign = game.add.sprite(game.world.centerX, game.world.centerY - 200, 'sign');
+            sign.anchor.setTo(0.5, 0.5);
+            sign.scale.setTo(0.4, 0.4);
+            game.physics.p2.enable([sign, pole]);
+
+            pole.body.clearCollision(true,true);
+            sign.body.clearCollision(true,true);
+
+            var rotConstraint = game.physics.p2.createRevoluteConstraint(sign, [0, 0], pole, [0, -100]);
+            //var lockConstraint = game.physics.p2.createLockConstraint(sign, pole, [0, 50], 100);
+
+            cursors = game.input.keyboard.createCursorKeys();
+        }
+
+        function update () {
+            if(cursors.left.isDown){
+                sign.body.rotateLeft(50);
+            }
+        }
+
+    };
+
+    </script>
+
+    </body>
+</html>
