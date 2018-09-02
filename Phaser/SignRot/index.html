@@ -24,6 +24,7 @@
 
         var sign;
         var pole;
+        var signBot;
 
         function create () {
 
@@ -34,7 +35,7 @@
             signTop.anchor.setTo(.5, .5);
             signTop.scale.setTo(.5, .5)
 
-            var signBot = game.add.sprite(game.world.centerX, game.world.centerY, 'sign_bot');
+            signBot = game.add.sprite(game.world.centerX, game.world.centerY, 'sign_bot');
             signBot.anchor.setTo(.5, .5);
             signBot.scale.setTo(.5, .5);
 
@@ -53,12 +54,17 @@
 //            sign = game.add.sprite(game.world.centerX, game.world.centerY - 200, 'sign');
 //            sign.anchor.setTo(0.5, 0.5);
 //            sign.scale.setTo(0.4, 0.4);
-//            game.physics.p2.enable([sign, pole]);
-//
-//            pole.body.clearCollision(true,true);
-//            sign.body.clearCollision(true,true);
+            game.physics.p2.enable([chainL, chainR, signBot, signTop]);
 
-//            var rotConstraint = game.physics.p2.createRevoluteConstraint(sign, [0, 0], pole, [0, -100]);
+            chainL.body.clearCollision(true,true);
+            chainR.body.clearCollision(true,true);
+            signBot.body.clearCollision(true,true);
+            signTop.body.clearCollision(true,true);
+
+            var lockConstraint = game.physics.p2.createLockConstraint(chainL, signTop, [0,10], 0);
+            var rotConstraintChain = game.physics.p2.createRevoluteConstraint(chainL, [0, 0], signTop, [0, 0]);
+            var rotConstraintSign = game.physics.p2.createRevoluteConstraint(signBot, [0, 0], chainL, [0, 0]);
+
             //var lockConstraint = game.physics.p2.createLockConstraint(sign, pole, [0, 50], 100);
 
             cursors = game.input.keyboard.createCursorKeys();
@@ -66,7 +72,7 @@
 
         function update () {
             if(cursors.left.isDown){
-                sign.body.rotateLeft(50);
+                signBot.body.moveLeft(50);
             }
         }
 
