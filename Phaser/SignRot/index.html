@@ -26,12 +26,14 @@
         var pole;
         var signBot;
 
+        var maxForce = 20000;
+
         function create () {
 
             game.physics.startSystem(Phaser.Physics.P2JS);
             //game.physics.p2.gravity.y = 200;
 
-            var signTop = game.add.sprite(game.world.centerX, game.world.centerY, 'sign_top');
+            var signTop = game.add.sprite(game.world.centerX + 40, game.world.centerY, 'sign_top');
             signTop.anchor.setTo(.5, .5);
             signTop.scale.setTo(.5, .5)
 
@@ -39,11 +41,11 @@
             signBot.anchor.setTo(.5, .5);
             signBot.scale.setTo(.5, .5);
 
-            var chainR = game.add.sprite(game.world.centerX, game.world.centerY, 'chain_r');
+            var chainR = game.add.sprite(game.world.centerX + 100, game.world.centerY, 'chain_r');
             chainR.anchor.setTo(.5, .5);
             chainR.scale.setTo(.5, .5);
 
-            var chainL = game.add.sprite(game.world.centerX, game.world.centerY, 'chain_l');
+            var chainL = game.add.sprite(game.world.centerX - 100, game.world.centerY, 'chain_l');
             chainL.anchor.setTo(.5, .5);
             chainL.scale.setTo(.5, .5);
 
@@ -61,11 +63,10 @@
             signBot.body.clearCollision(true,true);
             signTop.body.clearCollision(true,true);
 
-            var lockConstraint = game.physics.p2.createLockConstraint(chainL, signTop, [0,10], 0);
-            var rotConstraintChain = game.physics.p2.createRevoluteConstraint(chainL, [0, 0], signTop, [0, 0]);
-            var rotConstraintSign = game.physics.p2.createRevoluteConstraint(signBot, [0, 0], chainL, [0, 0]);
-
-            //var lockConstraint = game.physics.p2.createLockConstraint(sign, pole, [0, 50], 100);
+//            var lockConstraint
+            var rotConstraintChainR = game.physics.p2.createRevoluteConstraint(signBot, [-10, 0], chainR, [0, 10]);
+            var rotConstraintChainL = game.physics.p2.createRevoluteConstraint(chainL, [0, -10], signTop, [-180, -40]);
+            var rotConstraintSign = game.physics.p2.createRevoluteConstraint(signBot, [-210, -40], chainL, [0, 10]);
 
             cursors = game.input.keyboard.createCursorKeys();
         }
