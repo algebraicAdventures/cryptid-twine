@@ -15,8 +15,10 @@
 
         function preload () {
 
-            game.load.image('sign', '/images/sign.bmp');
-            game.load.image('pole', '/images/pole.bmp');
+            game.load.image('sign_top', '/images/Wilderness Sign.png');
+            game.load.image('sign_bot', '/images/Welcome Sign.png');
+            game.load.image('chain_r', '/images/chain_r.png');
+            game.load.image('chain_l', '/images/chain_l.png');
 
         }
 
@@ -28,19 +30,35 @@
             game.physics.startSystem(Phaser.Physics.P2JS);
             //game.physics.p2.gravity.y = 200;
 
-            pole = game.add.sprite(game.world.centerX, game.world.centerY + 100, 'pole');
-            pole.anchor.setTo(0.5, .5);
-            pole.scale.setTo(0.6, 0.6);
+            var signTop = game.add.sprite(game.world.centerX, game.world.centerY, 'sign_top');
+            signTop.anchor.setTo(.5, .5);
+            signTop.scale.setTo(.5, .5)
 
-            sign = game.add.sprite(game.world.centerX, game.world.centerY - 200, 'sign');
-            sign.anchor.setTo(0.5, 0.5);
-            sign.scale.setTo(0.4, 0.4);
-            game.physics.p2.enable([sign, pole]);
+            var signBot = game.add.sprite(game.world.centerX, game.world.centerY, 'sign_bot');
+            signBot.anchor.setTo(.5, .5);
+            signBot.scale.setTo(.5, .5);
 
-            pole.body.clearCollision(true,true);
-            sign.body.clearCollision(true,true);
+            var chainR = game.add.sprite(game.world.centerX, game.world.centerY, 'chain_r');
+            chainR.anchor.setTo(.5, .5);
+            chainR.scale.setTo(.5, .5);
 
-            var rotConstraint = game.physics.p2.createRevoluteConstraint(sign, [0, 0], pole, [0, -100]);
+            var chainL = game.add.sprite(game.world.centerX, game.world.centerY, 'chain_l');
+            chainL.anchor.setTo(.5, .5);
+            chainL.scale.setTo(.5, .5);
+
+//            pole = game.add.sprite(game.world.centerX, game.world.centerY + 100, 'pole');
+//            pole.anchor.setTo(0.5, .5);
+//            pole.scale.setTo(0.6, 0.6);
+//
+//            sign = game.add.sprite(game.world.centerX, game.world.centerY - 200, 'sign');
+//            sign.anchor.setTo(0.5, 0.5);
+//            sign.scale.setTo(0.4, 0.4);
+//            game.physics.p2.enable([sign, pole]);
+//
+//            pole.body.clearCollision(true,true);
+//            sign.body.clearCollision(true,true);
+
+//            var rotConstraint = game.physics.p2.createRevoluteConstraint(sign, [0, 0], pole, [0, -100]);
             //var lockConstraint = game.physics.p2.createLockConstraint(sign, pole, [0, 50], 100);
 
             cursors = game.input.keyboard.createCursorKeys();
