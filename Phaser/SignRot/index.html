@@ -25,15 +25,15 @@
         var sign;
         var pole;
         var signBot;
+        var signTop;
 
         var maxForce = 20000;
 
         function create () {
 
             game.physics.startSystem(Phaser.Physics.P2JS);
-            //game.physics.p2.gravity.y = 200;
 
-            var signTop = game.add.sprite(game.world.centerX + 40, game.world.centerY, 'sign_top');
+            signTop = game.add.sprite(game.world.centerX + 40, game.world.centerY, 'sign_top');
             signTop.anchor.setTo(.5, .5);
             signTop.scale.setTo(.5, .5)
 
@@ -49,13 +49,6 @@
             chainL.anchor.setTo(.5, .5);
             chainL.scale.setTo(.5, .5);
 
-//            pole = game.add.sprite(game.world.centerX, game.world.centerY + 100, 'pole');
-//            pole.anchor.setTo(0.5, .5);
-//            pole.scale.setTo(0.6, 0.6);
-//
-//            sign = game.add.sprite(game.world.centerX, game.world.centerY - 200, 'sign');
-//            sign.anchor.setTo(0.5, 0.5);
-//            sign.scale.setTo(0.4, 0.4);
             game.physics.p2.enable([chainL, chainR, signBot, signTop]);
 
             chainL.body.clearCollision(true,true);
@@ -63,18 +56,31 @@
             signBot.body.clearCollision(true,true);
             signTop.body.clearCollision(true,true);
 
-//            var lockConstraint
+            signTop.fixedRotation = true;
+            signTop.fixedX = true;
+            signTop.fixedY = true;
+
+            //signTop.addChild(chainL);
+
+            var lockConstraint = game.physics.p2.createLockConstraint(signTop, chainL, [180, 40], maxForce);
             var rotConstraintChainR = game.physics.p2.createRevoluteConstraint(signBot, [-10, 0], chainR, [0, 10]);
-            var rotConstraintChainL = game.physics.p2.createRevoluteConstraint(chainL, [0, -10], signTop, [-180, -40]);
+            //var rotConstraintChainL = game.physics.p2.createRevoluteConstraint(chainL, [0, -10], signTop, [-180, -40]);
             var rotConstraintSign = game.physics.p2.createRevoluteConstraint(signBot, [-210, -40], chainL, [0, 10]);
 
             cursors = game.input.keyboard.createCursorKeys();
+
+            lastPosn = signTop.position;
         }
+
+        var lastPosn;
 
         function update () {
             if(cursors.left.isDown){
-                signBot.body.moveLeft(50);
+                signBot.body.rotateLeft(20);
             }
+            signTop.position = [game.world.centerX, game.world.centerY];
+            lastPosn = signTop.position;
+
         }
 
     };
