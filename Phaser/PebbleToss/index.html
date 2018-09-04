@@ -11,7 +11,7 @@
 
     window.onload = function() {
 
-        var game = new Phaser.Game(2732, 2048, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+        var game = new Phaser.Game(2000, 1600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
         function preload ()
         {
@@ -27,15 +27,17 @@
         }
 
         var pb_bg, mothman_body, mothman_arm, pebble;
+
+        var gravity, vel_x, vel_y;
         //var pb_bg;
 
         function create ()
         {
             pb_bg = game.add.sprite(0, 0, 'pebblelake_background');
 
-            //mothman_body = game.add.sprite(0, 0, 'mothman_bod');
-            //mothman_arm = game.add.sprite(0, 0, 'mothman_arm');
-            //pebble = game.add.sprite(0, 0, 'pebble');
+            mothman_body = game.add.sprite(315, 820, 'mothman_bod');
+            mothman_arm = game.add.sprite(370, 870, 'mothman_arm');
+            pebble = game.add.sprite(0, 0, 'pebble');
 
 
             cursors = game.input.keyboard.createCursorKeys();
