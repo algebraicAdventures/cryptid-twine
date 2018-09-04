@@ -22,22 +22,72 @@
             game.load.image('mothman_arm', 'images/mothman_throwingarm.png');
             game.load.image('pebble', 'images/pebble.png');
 
-
-
         }
 
         var pb_bg, mothman_body, mothman_arm, pebble;
-
         var gravity, vel_x, vel_y;
-        //var pb_bg;
+        var raising_arm = 0;
+
+
+        /*  Handles the arm movement!
+
+            raising_arm is an enumerator.
+            raising_arm = 2   -   when the arm is being raised in the throw
+            raising arm = 1     -   when the arm is being lowered
+            raising arm = 0     -   when the arm is resting (waiting for it to be told to move)
+        */
+        function handle_arm_movement ()
+        {
+            if( raising_arm === 2 )
+            {
+                // raising the arm up!
+                mothman_arm.rotation -= 0.1;
+                if(mothman_arm.rotation <= .5)
+                {
+                    // set the arm to lower back down
+                    raising_arm = 1;    
+
+                    // spawn pebble here
+                }
+            }
+            else
+            {
+                if ( raising_arm === 1 )
+                {
+                    // lowing the arm back down
+                    mothman_arm.rotation += 0.04;
+                }
+
+                if ( mothman_arm.rotation >= 2 ) 
+                {
+                    // set the arm to be resting
+                    raising_arm = 0;
+                }
+
+            }
+        }
+        
+        /*  sets raising arm to 2, handle_arm_movement() handles everything else, including spawning the pebble!
+        */
+        function throw_pebble ()
+        {
+            if(raising_arm === 0)
+            {
+                raising_arm = 2;
+            }
+        }
 
         function create ()
         {
             pb_bg = game.add.sprite(0, 0, 'pebblelake_background');
 
             mothman_body = game.add.sprite(315, 820, 'mothman_bod');
-            mothman_arm = game.add.sprite(370, 870, 'mothman_arm');
-            pebble = game.add.sprite(0, 0, 'pebble');
+            mothman_arm = game.add.sprite(375, 905, 'mothman_arm');
+            mothman_arm.anchor.setTo(0, .85);
+            mothman_arm.rotation = 2;
+
+
+            //pebble = game.add.sprite(375, 905, 'pebble');
 
 
             cursors = game.input.keyboard.createCursorKeys();
@@ -45,10 +95,18 @@
         }
 
         function update () {
-            if(cursors.left.isDown){
-                //sign.body.rotateLeft(50);
-                console.log("you clicked, congrats");
+            if(cursors.left.isDown)
+            {
+                throw_pebble();
             }
+
+            handle_arm_movement();
+            
+            // make function that handles all the pebbles movements!
+            // probably make a swift pebble class that holds like velocity_x and whether it's submerged or not, it's lifetime (despawn after awhile or reaching the bottom of the lake)
+
+
+
         }
 
     };
