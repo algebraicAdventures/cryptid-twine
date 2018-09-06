@@ -9,24 +9,150 @@
 
     <script type="text/javascript">
 
-    window.onload = function() {
-
+    window.onload = function()
+    {
+        // make game variable object
         var game = new Phaser.Game(2000, 1600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
-        function preload ()
-        {
+        
 
-            game.load.image('pebblelake_background', 'images/pebblelake_background.png');
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                                                                                              //
+        //                                          GLOBAL VARIABLES                                                    //
+        //                                                                                                              //
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            game.load.image('mothman_bod', 'images/mothman_body.png');
-            game.load.image('mothman_arm', 'images/mothman_throwingarm.png');
-            game.load.image('pebble', 'images/pebble.png');
 
-        }
-
-        var pb_bg, mothman_body, mothman_arm, pebble;
+        var pb_bg, blob, mothman_body, mothman_arm, pebble;
         var gravity, vel_x, vel_y;
         var raising_arm = 0;
+
+        var pebble_spawn_x = 445;
+        var pebble_spawn_y = 900;
+        var pebble_list = [];// = new List();
+        var underwater_pebble_list = [];
+
+        var gameTime = 0;
+        var water_level = 1120;
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                                                                                              //
+        //                                           HELPER CLASSES                                                     //
+        //                                                                                                              //
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        class Pebble
+        {
+            constructor( vx, vy) 
+            {
+                this.vx = vx;
+                this.vy = vy;
+                this.gameObject = game.add.sprite(pebble_spawn_x, pebble_spawn_y, 'pebble');
+                this.start_time = gameTime;
+                this.lifetime = 1.65;
+                this.splash_lifetime = .25;
+                this.underwater = 0;    // boolean
+                this.splash = null;
+            }
+
+            Update()
+            {
+                if(this.underwater === 0)
+                {
+                    // acceleration of gravity
+                    this.vy -= 1;
+                }
+                else
+                {
+                    // interpolate the velocity values towards what they should be
+                    this.vy = lerp(this.vy, -2, .2);
+                    this.vx = lerp(this.vx, 0, .2);
+
+                    if(this.splash != null)
+                    {  
+
+                        if(gameTime >= this.splash_start_time + this.splash_lifetime)
+                        {
+                            this.splash.destroy();
+                        }
+                    }
+                }
+                
+                if(this.underwater === 1)
+                {
+                    return;
+                }
+                
+                // apply velocity
+                this.gameObject.x += this.vx;
+                this.gameObject.y -= this.vy;
+
+
+                // DETERMINE IF THE PEBBLE HAS HIT THE WATER'S SURFACE!
+                if(this.gameObject.y >= water_level)
+                {
+                    this.underwater = 1;
+                    
+                    var splash_x = this.gameObject.x;
+                    var splash_y = this.gameObject.y;
+                    this.splash = game.add.sprite(splash_x - 80, splash_y - 90, 'splash');
+
+                    this.splash_start_time = gameTime
+                    
+                    underwater_pebble_list.push(new UnderwaterPebble(this.gameObject.x, this.gameObject.y, this.vx, this.vy));
+                    this.gameObject.destroy();
+                }
+            }
+        }
+
+
+        class UnderwaterPebble
+        {
+            constructor( x,y, vx, vy) 
+            {
+                this.vx = vx;
+                this.vy = vy;
+                this.gameObject = game.add.sprite(x, y, 'pebble');
+                this.start_time = gameTime;
+                this.lifetime = .8;
+            }
+
+            Update()
+            {
+                this.vy = lerp(this.vy, -2, .2);
+                this.vx = lerp(this.vx, 0, .2);
+
+                // apply velocity
+                this.gameObject.x += this.vx;
+                this.gameObject.y -= this.vy;
+
+                // DETERMINE IF THE PEBBLE HAS OUTLIVED ITS LIFETIME!
+                if(gameTime >= this.start_time + this.lifetime)
+                {
+                    console.log("deleting pebbl");
+                    underwater_pebble_list.shift();
+                    this.gameObject.destroy();
+                }
+            }
+        }
+
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                                                                                              //
+        //                                          HELPER FUNCTIONS                                                    //
+        //                                                                                                              //
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        /*
+            QUICK INTERPOLATION FUNCTION
+        */
+        function lerp (a, b, t)
+        {
+            return a + t * (b - a);
+        }
 
 
         /*  Handles the arm movement!
@@ -41,13 +167,14 @@
             if( raising_arm === 2 )
             {
                 // raising the arm up!
-                mothman_arm.rotation -= 0.1;
+                mothman_arm.rotation -= 0.13;
                 if(mothman_arm.rotation <= .5)
                 {
                     // set the arm to lower back down
                     raising_arm = 1;    
 
                     // spawn pebble here
+                    instantiate_pebble();
                 }
             }
             else
@@ -67,7 +194,9 @@
             }
         }
         
-        /*  sets raising arm to 2, handle_arm_movement() handles everything else, including spawning the pebble!
+
+        /*  
+            sets raising arm to 2, handle_arm_movement() handles everything else, including spawning the pebble!
         */
         function throw_pebble ()
         {
@@ -77,13 +206,70 @@
             }
         }
 
+
+        function instantiate_pebble()
+        {
+            //console.log("Instantiated pebble!");
+            var peb_v_x = 10 + Math.floor(Math.random() * 6);
+            var peb_v_y = 10 + Math.floor(Math.random() * 10);
+            pebble_list.push(new Pebble(peb_v_x, peb_v_y));
+        }
+
+        function handle_pebble_movement()
+        {
+            if(pebble_list.length >= 1)
+            {
+                //console.log(pebble_list.length);
+                var i;
+                for(i = 0; i < pebble_list.length; i++)
+                {
+                    pebble_list[i].Update();
+                }
+            }
+        }
+
+        function handle_underwater_pebble_movement()
+        {
+            if(underwater_pebble_list.length >= 1)
+            {
+                //console.log(underwater_pebble_list.length);
+                var i;
+                for(i = 0; i < underwater_pebble_list.length; i++)
+                {
+                    underwater_pebble_list[i].Update();
+                }
+            }
+        }
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                                                                                              //
+        //                                          PHASER FUNCTIONS                                                    //
+        //                                                                                                              //
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function preload ()
+        {
+
+            game.load.image('pebblelake_background', 'images/pebblelake_background.png');
+            game.load.image('underwater_blob', 'images/underwater_blob.png');
+
+            game.load.image('mothman_bod', 'images/mothman_body.png');
+            game.load.image('mothman_arm', 'images/mothman_throwingarm.png');
+            game.load.image('pebble', 'images/pebble.png');
+
+            game.load.image('splash', 'images/watersplash.png');
+
+        }
+
         function create ()
         {
             pb_bg = game.add.sprite(0, 0, 'pebblelake_background');
+            blob = game.add.sprite(1080, 1230, 'underwater_blob');
 
-            mothman_body = game.add.sprite(315, 820, 'mothman_bod');
-            mothman_arm = game.add.sprite(375, 905, 'mothman_arm');
-            mothman_arm.anchor.setTo(0, .85);
+            mothman_body = game.add.sprite(320, 820, 'mothman_bod');
+            mothman_arm = game.add.sprite(380, 908, 'mothman_arm');
+            mothman_arm.anchor.setTo(0.1, .85);
             mothman_arm.rotation = 2;
 
 
@@ -94,19 +280,19 @@
 
         }
 
-        function update () {
+        function update ()
+        {
+            gameTime += game.time.elapsed/1000;
+
             if(cursors.left.isDown)
             {
                 throw_pebble();
             }
 
             handle_arm_movement();
+            handle_pebble_movement();
+            handle_underwater_pebble_movement();
             
-            // make function that handles all the pebbles movements!
-            // probably make a swift pebble class that holds like velocity_x and whether it's submerged or not, it's lifetime (despawn after awhile or reaching the bottom of the lake)
-
-
-
         }
 
     };
