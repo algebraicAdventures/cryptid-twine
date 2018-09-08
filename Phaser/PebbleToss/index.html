@@ -12,7 +12,7 @@
     window.onload = function()
     {
         // make game variable object
-        var game = new Phaser.Game(2000, 1600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+        var game = new Phaser.Game(1000, 800, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
         
 
@@ -27,13 +27,13 @@
         var gravity, vel_x, vel_y;
         var raising_arm = 0;
 
-        var pebble_spawn_x = 445;
-        var pebble_spawn_y = 900;
+        var pebble_spawn_x = 222;
+        var pebble_spawn_y = 450;
         var pebble_list = [];// = new List();
         var underwater_pebble_list = [];
 
         var gameTime = 0;
-        var water_level = 1120;
+        var water_level = 560;
 
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,6 +49,7 @@
                 this.vx = vx;
                 this.vy = vy;
                 this.gameObject = game.add.sprite(pebble_spawn_x, pebble_spawn_y, 'pebble');
+                this.gameObject.scale.setTo(0.5);
                 this.start_time = gameTime;
                 this.lifetime = 1.65;
                 this.splash_lifetime = .25;
@@ -61,12 +62,12 @@
                 if(this.underwater === 0)
                 {
                     // acceleration of gravity
-                    this.vy -= 1;
+                    this.vy -= .5;
                 }
                 else
                 {
                     // interpolate the velocity values towards what they should be
-                    this.vy = lerp(this.vy, -2, .2);
+                    this.vy = lerp(this.vy, -1, .2);
                     this.vx = lerp(this.vx, 0, .2);
 
                     if(this.splash != null)
@@ -96,7 +97,8 @@
                     
                     var splash_x = this.gameObject.x;
                     var splash_y = this.gameObject.y;
-                    this.splash = game.add.sprite(splash_x - 80, splash_y - 90, 'splash');
+                    this.splash = game.add.sprite(splash_x - 40, splash_y - 45, 'splash');
+                    this.splash.scale.setTo(0.5);
 
                     this.splash_start_time = gameTime
                     
@@ -114,13 +116,14 @@
                 this.vx = vx;
                 this.vy = vy;
                 this.gameObject = game.add.sprite(x, y, 'pebble');
+                this.gameObject.scale.setTo(0.5);
                 this.start_time = gameTime;
                 this.lifetime = .8;
             }
 
             Update()
             {
-                this.vy = lerp(this.vy, -2, .2);
+                this.vy = lerp(this.vy, -1, .2);
                 this.vx = lerp(this.vx, 0, .2);
 
                 // apply velocity
@@ -210,8 +213,8 @@
         function instantiate_pebble()
         {
             //console.log("Instantiated pebble!");
-            var peb_v_x = 10 + Math.floor(Math.random() * 6);
-            var peb_v_y = 10 + Math.floor(Math.random() * 10);
+            var peb_v_x = 5 + Math.floor(Math.random() * 3);
+            var peb_v_y = 5 + Math.floor(Math.random() * 5);
             pebble_list.push(new Pebble(peb_v_x, peb_v_y));
         }
 
@@ -265,10 +268,14 @@
         function create ()
         {
             pb_bg = game.add.sprite(0, 0, 'pebblelake_background');
-            blob = game.add.sprite(1080, 1230, 'underwater_blob');
+            pb_bg.scale.setTo(0.5);
+            blob = game.add.sprite(540, 615, 'underwater_blob');
+            blob.scale.setTo(0.5);
 
-            mothman_body = game.add.sprite(320, 820, 'mothman_bod');
-            mothman_arm = game.add.sprite(380, 908, 'mothman_arm');
+            mothman_body = game.add.sprite(160, 410, 'mothman_bod');
+            mothman_body.scale.setTo(0.5);
+            mothman_arm = game.add.sprite(190, 454, 'mothman_arm');
+            mothman_arm.scale.setTo(0.5);
             mothman_arm.anchor.setTo(0.1, .85);
             mothman_arm.rotation = 2;
 
